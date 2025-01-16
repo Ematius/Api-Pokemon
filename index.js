@@ -30,7 +30,7 @@ function createPokemonCard(pokemon){
     
     <div class="pokemon-card">
             <article class="pokemon-images">
-                <img src="/JS/christmas-challenges/04_Pokemos/img/pokeball_no_background_fixed.png" alt="imagen de ${
+                <img src="/img/pokeball_no_background_fixed.png" alt="imagen de ${
                     pokemon.name
                 }" class="pokemon-image">
                 <img src="${pokemonImg}" alt="imagen de ${
