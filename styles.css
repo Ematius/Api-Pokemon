@@ -36,6 +36,22 @@ header {
 header h1 img {
     width: 30rem;
 }
+.search-form{
+    padding: 1rem;
+    .search{
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem;
+    }
+    button{
+        padding: 0.5rem;
+        border-radius: 10px;
+        cursor: pointer;
+        border: none;
+        color: var(--primary-color);
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
 
 .main-container {
     display: grid;
