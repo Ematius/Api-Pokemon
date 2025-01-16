@@ -102,6 +102,20 @@ async function getPokemon(offset) {
         console.error('Error fetching url:', error);
     }
 }
+//crear un input que introduzca el id que se va ha buscar
+//crear una función que recoja la id y cargue la función searchPokemon
+
+async function searchPokemon(id){
+    try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        const data = await response.json();
+        const pokemonID = data.results;
+              
+    }
+    catch(error){
+        console.error('Error en encontrar el pokemon:', error);
+    }
+}
 
 buttonsNextPrevious();
 getPokemon();
