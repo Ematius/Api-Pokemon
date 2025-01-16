@@ -1,14 +1,14 @@
-import { render } from './components/render.js';
+/** @format */
 
+import { render } from "./components/render.js";
 
-
-function createPokemonCard(pokemon){
-    const selector = '.main-container';
-    const position = 'beforeend';
-    const capitalize =
-        pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-    const pokemonImg = pokemon.sprites.other['official-artwork'].front_default;
-    const template = /*html*/ `
+function createPokemonCard(pokemon) {
+  const selector = ".main-container";
+  const position = "beforeend";
+  const capitalize =
+    pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+  const pokemonImg = pokemon.sprites.other["official-artwork"].front_default;
+  const template = /*html*/ `
     <div class="pokemon-card-total">
      <div class="flip-container">
             <div class="card">
@@ -21,8 +21,8 @@ function createPokemonCard(pokemon){
                     <p>Weight: ${pokemon.weight}</p>
                     <p>Base Experience: ${pokemon.base_experience}</p>
                     <p>Types: ${pokemon.types
-                        .map((typeInfo) => typeInfo.type.name)
-                        .join(', ')}</p>
+                      .map((typeInfo) => typeInfo.type.name)
+                      .join(", ")}</p>
                 </div>
             </div>
         </div>
@@ -31,80 +31,98 @@ function createPokemonCard(pokemon){
     <div class="pokemon-card">
             <article class="pokemon-images">
                 <img src="/img/pokeball_no_background_fixed.png" alt="imagen de ${
-                    pokemon.name
+                  pokemon.name
                 }" class="pokemon-image">
                 <img src="${pokemonImg}" alt="imagen de ${
-        pokemon.name
-    }" class="pokemon-image">
+    pokemon.name
+  }" class="pokemon-image">
             </article>
             
         </div>
     </div>
     `;
 
-    render(selector, position, template);
-
-    
+  render(selector, position, template);
 }
 
 function buttonsNextPrevious() {
-    let offset = 0;
+  let offset = 0;
 
-    const buttonNext = document.querySelector('.next');
-    const buttonPrevious = document.querySelector('.previous');
+  const buttonNext = document.querySelector(".next");
+  const buttonPrevious = document.querySelector(".previous");
 
-    function checkOffset() {
-        if (offset === 0) {
-            buttonPrevious.setAttribute('disabled', '');
-            buttonPrevious.classList.add('hidden');
-        } else {
-            buttonPrevious.removeAttribute('disabled');
-            buttonPrevious.classList.remove('hidden');
-        }
+  function checkOffset() {
+    if (offset === 0) {
+      buttonPrevious.setAttribute("disabled", "");
+      buttonPrevious.classList.add("hidden");
+    } else {
+      buttonPrevious.removeAttribute("disabled");
+      buttonPrevious.classList.remove("hidden");
     }
-    checkOffset();
+  }
+  checkOffset();
 
-    buttonNext.addEventListener('click', () => {
-        const pokemonContainer = document.querySelector('.main-container');
-        pokemonContainer.innerHTML = '';
-        offset += 10;
-        checkOffset();
-        console.log(offset);
-        getPokemon(offset);
-    });
-    buttonPrevious.addEventListener('click', () => {
-        const pokemonContainer = document.querySelector('.main-container');
-        pokemonContainer.innerHTML = '';
-        offset -= 10;
-        checkOffset();
-        console.log(offset);
-        getPokemon(offset);
-    });
+  buttonNext.addEventListener("click", () => {
+    const pokemonContainer = document.querySelector(".main-container");
+    pokemonContainer.innerHTML = "";
+    offset += 10;
+    checkOffset();
+    console.log(offset);
+    getPokemon(offset);
+  });
+  buttonPrevious.addEventListener("click", () => {
+    const pokemonContainer = document.querySelector(".main-container");
+    pokemonContainer.innerHTML = "";
+    offset -= 10;
+    checkOffset();
+    console.log(offset);
+    getPokemon(offset);
+  });
 }
 
 async function getPokemon(offset) {
-    try {
-        const response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon?offset=${offset} &limit=10`
-        );
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=10`
+    );
+    const data = await response.json();
+    const pokemonList = data.results;
+    pokemonList.forEach(async (pokemon) => {
+      try {
+        const pokemonDetails = await fetch(pokemon.url);
+        const pokemonData = await pokemonDetails.json();
+        createPokemonCard(pokemonData);
+      } catch (error) {
+        console.error("Error fetching pokemonData:", error);
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching url:", error);
+  }
+}
+
+function lookForPokemon() {
+  const searchForm = document.querySelector(".search-form");
+
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const searchInput = searchForm.querySelector(".search");
+    const searchValue = searchInput.value.trim().toLowerCase();
+    async function searchPokemon(name) {
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await response.json();
-        const pokemonList = data.results;
-        pokemonList.forEach(async (pokemon) => {
-            try {
-                const pokemonDetails = await fetch(pokemon.url);
-                const pokemonData = await pokemonDetails.json();
-                createPokemonCard(pokemonData);
-            } catch (error) {
-                console.error('Error fetching pokemonData:', error);
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching url:', error);
+        document.querySelector(".main-container").innerHTML = "";
+        createPokemonCard(data);
+      } catch (error) {
+        console.error("Error de fetch en búsqueda:", error);
+      }
     }
+    searchPokemon(searchValue);
+    searchForm.reset();
+  });
 }
 
 buttonsNextPrevious();
 getPokemon();
-
-
-
+lookForPokemon();
