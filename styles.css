@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: var(--quaternary-color);
+  background-color: rgba(0, 0, 0, 0.904);
   font-family: cursive;
   width: 100vw;
   height: 100vh;
@@ -200,17 +200,37 @@ p {
   & button {
     border: none;
     background-color: var(--primary-color);
-    border-radius: 10px;
+    border-radius: 1000px;
     padding: 0.5rem 1rem;
-    color: var(--tertiary-color);
+    color: black;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::after{
+        content: '';
+        position: absolute;
+        width: 14%;
+        height: 9%;
+        border-radius: 1000px;
+        background-color: var(--primary-color);
+        background-image: linear-gradient(to bottom right, var(--primary-color), var(--quinary-color));
+        z-index: -1;
+    }
+    &:hover{
+        z-index: 1;
+        box-shadow: 40px 0 100px var(--quinary-color);
+    }
     &:disabled {
       background-color: var(--tertiary-color);
       color: var(--primary-color);
       cursor: not-allowed;
+      
     }
   }
 }
+
+
 
 footer {
   background-color: var(--primary-color);
