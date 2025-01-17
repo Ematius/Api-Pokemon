@@ -199,7 +199,7 @@ p {
   padding: 1rem;
   & button {
     border: none;
-    background-color: var(--primary-color);
+    background-color: #ffcc00b6;
     border-radius: 1000px;
     padding: 0.5rem 1rem;
     color: black;
@@ -210,8 +210,8 @@ p {
     &::after{
         content: '';
         position: absolute;
-        width: 14%;
-        height: 9%;
+        width: 7rem;
+        height: 3rem;
         border-radius: 1000px;
         background-color: var(--primary-color);
         background-image: linear-gradient(to bottom right, var(--primary-color), var(--quinary-color));
