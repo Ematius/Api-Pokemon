@@ -27,7 +27,7 @@ header {
   display: flex;
   justify-content: center;
   background-image: url("/img/image.png");
-  background-size: cover;
+  background-size: 1600px;
   padding: 7rem;
   text-align: center;
   width: 100%;
