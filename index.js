@@ -54,10 +54,10 @@ function buttonsNextPrevious() {
   function checkOffset() {
     if (offset === 0) {
       buttonPrevious.setAttribute("disabled", "");
-      buttonPrevious.classList.add("hidden");
+      
     } else {
       buttonPrevious.removeAttribute("disabled");
-      buttonPrevious.classList.remove("hidden");
+      
     }
   }
   checkOffset();
