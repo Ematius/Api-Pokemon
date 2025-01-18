@@ -15,6 +15,7 @@ const createUser = async (name, email, password) => {
       nick: nick,
       email: email,
       password: password,
+      favorites: [],
       creadoEn: new Date(),
     });
     console.log("Usuario añadido con ID:", docRef.id);
@@ -28,9 +29,10 @@ const form = document.querySelector(".form");
 addEventListener("submit", (event) => {
   event.preventDefault();
   const nombre = form.querySelector(".nombre").value;
+  const nick = form.querySelector(".nick").value;
   const email = form.querySelector(".email").value;
   const password = form.querySelector(".password").value;
-  createUser(email, nombre, password);
+  createUser(nombre, nick, email, password);
 });
 
 

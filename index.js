@@ -1,6 +1,10 @@
 /** @format */
 
 import { render } from "./components/render.js";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { app } from "./firebaseConfig";
+
 
 function createPokemonCard(pokemon) {
   const selector = ".main-container";
@@ -24,6 +28,7 @@ function createPokemonCard(pokemon) {
                       .map((typeInfo) => typeInfo.type.name)
                       .join(", ")}</p>
                 </div>
+
             </div>
         </div>
     
@@ -37,9 +42,9 @@ function createPokemonCard(pokemon) {
     pokemon.name
   }" class="pokemon-image">
             </article>
-            
         </div>
     </div>
+    <button class="favorite" value=${pokemon.id} >Añadir a favorito</button>
     `;
 
   render(selector, position, template);
@@ -123,6 +128,55 @@ function lookForPokemon() {
   });
 }
 
+
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+document.addEventListener("click", async (event) => {
+  if (event.target.classList.contains("favorite")) {
+    const pokemonId = event.target.value; 
+    const user = auth.currentUser;
+
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      try {
+        
+        await updateDoc(userDocRef, {
+          favorites: arrayUnion(Number(pokemonId)),
+        });
+        console.log(`Pokémon ${pokemonId} añadido a favoritos`);
+      } catch (error) {
+        console.error("Error al añadir a favoritos:", error);
+      }
+    } else {
+      console.log("El usuario no está autenticado");
+    }
+  }
+});
+
+function initAuthStateListener() {
+  const auth = getAuth(app);
+  const userStatusElement = document.getElementById("user-status");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userEmail = user.email;
+      userStatusElement.textContent = `Conectado como: ${userEmail}`;
+      userStatusElement.style.color = "green";
+    } else {
+      userStatusElement.textContent = "No estás conectado";
+      userStatusElement.style.color = "red";
+    }
+  });
+}
+
+// Llama a la función al final del archivo
+initAuthStateListener();
+
+
+onAuthStateChanged()
+fetchPokemonData();
 buttonsNextPrevious();
 getPokemon();
 lookForPokemon();
