@@ -3,7 +3,7 @@
 import { render } from "../components/render.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
-import { app } from "../firebaseConfig.js";
+import { app } from "/firebaseConfig.js";
 
 
 function createPokemonCard(pokemon) {
