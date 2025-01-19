@@ -14,10 +14,12 @@ const firebaseConfig = {
   projectId: "api-pokemon-c4419",
   storageBucket: "api-pokemon-c4419.firebasestorage.app",
   messagingSenderId: "480601322972",
-  appId: "1:480601322972:web:b85c9725730c6053c18b19",
-  measurementId: "G-XRZLBFPSX1",
+  appId: "1:480601322972:web:8248a3d01e11d974c18b19",
+  measurementId: "G-PXV1MDS85T",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+export { app, analytics };

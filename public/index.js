@@ -1,9 +1,9 @@
 /** @format */
 
-import { render } from "./components/render.js";
+import { render } from "../components/render.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
-import { app } from "./firebaseConfig";
+import { app } from "../firebaseConfig.js";
 
 
 function createPokemonCard(pokemon) {
@@ -175,7 +175,7 @@ function initAuthStateListener() {
 initAuthStateListener();
 
 
-onAuthStateChanged()
+
 fetchPokemonData();
 buttonsNextPrevious();
 getPokemon();
